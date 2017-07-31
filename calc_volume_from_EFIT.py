@@ -18,7 +18,7 @@ def dVolume(R_in, Z_in, R_out, Z_out, plot_flux_surface = False):
     area = []
     vol = []
     for i in range(len(R_in) - 1):
-        print(i)
+#        print(i)
         vec1 = [R_out[i] - R_in[i], Z_out[i] - Z_in[i]]
         vec2 = [R_out[i] - R_out[i + 1], Z_out[i] - Z_out[i + 1]]
         vec3 = [R_in[i + 1] - R_out[i + 1], Z_in[i + 1] - Z_out[i + 1]]
@@ -67,14 +67,16 @@ print('psipn[-1] = {}'.format(EFITdict['psipn'][-1]))
 #print(range(1, len(EFITdict['psipn'])))
 # TODO: volumn inside the first flux surface
 dV = []
-ntheta = 100
+psipn = []
+ntheta = 128
 for i in range(1, len(EFITdict['psipn']) - 1):
     print(i)
 #if 1 == 1:
 #    i = 250
-    R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, EFITdict['psipn'][i], 100)
-    R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, EFITdict['psipn'][i + 1], 100)
+    R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, EFITdict['psipn'][i], ntheta)
+    R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, EFITdict['psipn'][i + 1], ntheta)
     dV.append(dVolume(R_in, Z_in, R_out, Z_out, False))
-print(dV)
-plt.plot(dV)
+    psipn.append(EFITdict['psipn'][i])
+print(sum(dV))
+plt.plot(psipn, dV)
 plt.show()
