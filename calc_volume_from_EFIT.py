@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 from interp import *
 from finite_differences_x import *
 import sys
+import numpy as np
+
+def areaTriangle(vec1, vec2):
+    return 0.5 * np.cross(vec1, vec2)
 
 def dVolume(R_in, Z_in, R_out, Z_out, plot_flux_surface = False):
     if plot_flux_surface:
@@ -32,7 +36,11 @@ print('Total number of grid points in psipn: {}'.format(len(EFITdict['psipn'])))
 print('psipn[0] = {}'.format(EFITdict['psipn'][0]))
 print('psipn[-1] = {}'.format(EFITdict['psipn'][-1]))
 #print(range(1, len(EFITdict['psipn'])))
+# TODO: volumn inside the first flux surface
 for i in range(1, len(EFITdict['psipn'] - 1), 100):
     R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFIT_file_name, EFITdict['psipn'][i], False)
     R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFIT_file_name, EFITdict['psipn'][i + 1], False)
-    dVolume(R_in, Z_in, R_out, Z_out, True)
+    dVolume(R_in, Z_in, R_out, Z_out, False)
+    vec1 = [1, 2]
+    vec2 = [4, 5]
+    print(areaTriangle(vec1, vec2))
