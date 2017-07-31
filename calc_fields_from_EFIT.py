@@ -12,11 +12,13 @@ import numpy as np
 from read_EFIT import *
 from finite_differences_x import *
 
-def BfieldsFS(EFIT_file_name, fs_psipn, plot_flux_surface = False):
+#def BfieldsFS(EFIT_file_name, fs_psipn, plot_flux_surface = False):
+def BfieldsFS(EFITdict, fs_psipn, ntheta, plot_flux_surface = False):
 
     fs_psipn = float(fs_psipn)
+    ntheta = int(ntheta)
 
-    EFITdict = read_EFIT(EFIT_file_name)
+    #EFITdict = read_EFIT(EFIT_file_name)
 
     psirz = EFITdict['psirz']
     Zgrid = EFITdict['Zgrid']
@@ -55,7 +57,7 @@ def BfieldsFS(EFIT_file_name, fs_psipn, plot_flux_surface = False):
     tol = 1.0E-7
     l_1 = (rleft + rdim - rmaxis)*fs_psipn*0.99
     l_2 = (rleft + rdim - rmaxis)*fs_psipn*1.01
-    ntheta = 1000
+
     theta_grid = np.empty(ntheta, dtype = float128)
     l_grid = np.empty(ntheta, dtype = float128)
     R_fs = np.empty(ntheta, dtype = float128)
