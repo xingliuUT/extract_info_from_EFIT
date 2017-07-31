@@ -107,7 +107,8 @@ def BfieldsFS(EFITdict, fs_psipn, ntheta, plot_flux_surface = False):
         plt.axis('equal')
         plt.xlabel('R (m)')
         plt.ylabel('Z (m)')
-        plt.title(EFIT_file_name+', psip ='+str(fs_psipn))
+        #plt.title(EFIT_file_name+', psip ='+str(fs_psipn))
+        plt.title('psip ='+str(fs_psipn))
         plt.show()
 
     return R_fs,Z_fs,Bp,abs(Bt),B_tot
