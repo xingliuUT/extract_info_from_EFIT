@@ -12,7 +12,7 @@ import numpy as np
 from read_EFIT import *
 from finite_differences_x import *
 
-def BfieldsFS(EFIT_file_name, fs_psipn):
+def BfieldsFS(EFIT_file_name, fs_psipn, plot_flux_surface = False):
 
     fs_psipn = float(fs_psipn)
 
@@ -100,7 +100,7 @@ def BfieldsFS(EFIT_file_name, fs_psipn):
     Bt = F_fs/R_fs
     B_tot = np.sqrt(Bp**2+Bt**2)
     
-    if 1 == 0:
+    if plot_flux_surface:
         plt.plot(R_fs,Z_fs)
         plt.axis('equal')
         plt.xlabel('R (m)')
