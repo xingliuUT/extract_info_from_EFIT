@@ -11,4 +11,5 @@ import sys
 EFIT_file_name = sys.argv[1]
 EFITdict = read_EFIT(EFIT_file_name)
 print list(EFITdict.keys())
-
+psip_fs = 0.98
+R_fs, Z_fs, B_pol, B_tor, B_tot = BfieldsFS(EFIT_file_name, psip_fs, True)
