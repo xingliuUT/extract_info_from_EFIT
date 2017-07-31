@@ -69,7 +69,7 @@ print('psipn[-1] = {}'.format(EFITdict['psipn'][-1]))
 dV = []
 psipn = []
 ntheta = 128
-for i in range(1, len(EFITdict['psipn']) - 1):
+for i in range(len(EFITdict['psipn']) - 1):
     print(i)
 #if 1 == 1:
 #    i = 250
