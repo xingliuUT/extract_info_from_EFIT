@@ -11,5 +11,10 @@ import sys
 EFIT_file_name = sys.argv[1]
 EFITdict = read_EFIT(EFIT_file_name)
 print list(EFITdict.keys())
-psip_fs = 0.98
-R_fs, Z_fs, B_pol, B_tor, B_tot = BfieldsFS(EFIT_file_name, psip_fs, True)
+psip_fs = 0.
+ntheta = 128
+R_fs, Z_fs, B_pol, B_tor, B_tot = BfieldsFS(EFITdict, psip_fs, ntheta, True)
+print(R_fs)
+print(Z_fs)
+print(EFITdict['zmaxis'])
+print(EFITdict['rmaxis'])
