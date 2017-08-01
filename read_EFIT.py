@@ -207,3 +207,17 @@ def read_EFIT(EFIT_file_name):
     EFITdict['Btor'] = abs(Btor)    #B_tor on psipn grid
 
     return EFITdict
+
+def magneticShear(EFITdict):
+
+    psipn = EFITdict['psipn']
+    rhotn = EFITdict['rhotn']
+    q = EFITdict['qpsi']
+    p = EFITdict['Pres']
+
+    uni_rhot = np.linspace(rhotn[0], rhotn[-1], len(rhotn) * 10)
+    q_unirhot = interp(rhotn, q, uni_rhot)
+    shat_unirhot = uni_rhot / q_unirhot * first_derivative(q_unirhot, uni_rhot)
+    shat = interp(uni_rhot, shat_unirhot, rhotn)
+
+    return shat

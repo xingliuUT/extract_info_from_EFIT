@@ -17,4 +17,6 @@ ntheta = 1024
 #R_fs, Z_fs, B_pol, B_tor, B_tot = BfieldsFS(EFITdict, psip_fs, ntheta, True)
 #V = totalV(EFIT_file_name, sys.argv[2], ntheta)
 #print('# Total volume = {}'.format(V))
-print(surfaceArea(EFITdict, ntheta))
+#print(surfaceArea(EFITdict, ntheta))
+plt.plot(EFITdict['psipn'], magneticShear(EFITdict))
+plt.show()
