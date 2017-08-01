@@ -18,5 +18,10 @@ ntheta = 1024
 #V = totalV(EFIT_file_name, sys.argv[2], ntheta)
 #print('# Total volume = {}'.format(V))
 #print(surfaceArea(EFITdict, ntheta))
-plt.plot(EFITdict['psipn'], magneticShear(EFITdict))
+
+uni_rhot, shat, Ls = magneticShear(EFITdict)
+#plt.plot(EFITdict['rhotn'], shat)
+plt.plot(uni_rhot, shat)
+plt.show()
+plt.plot(uni_rhot, Ls)
 plt.show()
