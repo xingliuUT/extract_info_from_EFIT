@@ -3,6 +3,7 @@
 from read_EFIT import *
 #from read_iterdb_file import *
 from calc_fields_from_EFIT import *
+from calc_volume_from_EFIT import *
 import matplotlib.pyplot as plt
 from interp import *
 from finite_differences_x import *
@@ -18,3 +19,7 @@ print(R_fs)
 print(Z_fs)
 print(EFITdict['zmaxis'])
 print(EFITdict['rmaxis'])
+#EFIT_file_name = sys.argv[1]
+ntheta = 128
+V = totalV(EFIT_file_name, ntheta)
+print('Total volume = {}'.format(V))
