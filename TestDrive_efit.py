@@ -12,10 +12,9 @@ import sys
 EFIT_file_name = sys.argv[1]
 EFITdict = read_EFIT(EFIT_file_name)
 print list(EFITdict.keys())
-psip_fs = 1.
-ntheta = 128
-R_fs, Z_fs, B_pol, B_tor, B_tot = BfieldsFS(EFITdict, psip_fs, ntheta, True)
-#ntheta = 128
+#psip_fs = 1.
+ntheta = 1024
+#R_fs, Z_fs, B_pol, B_tor, B_tot = BfieldsFS(EFITdict, psip_fs, ntheta, True)
 #V = totalV(EFIT_file_name, sys.argv[2], ntheta)
 #print('# Total volume = {}'.format(V))
-print(surfaceArea(EFITdict))
+print(surfaceArea(EFITdict, ntheta))

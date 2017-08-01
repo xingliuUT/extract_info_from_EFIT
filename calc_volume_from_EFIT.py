@@ -63,8 +63,15 @@ def totalV(EFIT_file_name, OUT_file_name, ntheta):
    
     return sum(dV)
     
-def surfaceArea(EFITdict, psip_fs = 1.):
-    psip_fs = float(psip_fs)
+def surfaceArea(EFITdict, ntheta, psipn_fs = 1.):
+    psipn_fs = float(psipn_fs)
     psipn_vec = EFITdict['psipn']
-    psipInd = np.argmin(abs(psipn_vec - psip_fs))
-    return psipInd
+    psipnInd = np.argmin(abs(psipn_vec - psipn_fs))
+    R_fs, Z_fs, B_pol_fs, B_tor_fs, B_tot_fs = BfieldsFS(EFITdict, psipn_fs, ntheta)
+    area = []
+    for i in range(len(R_fs) - 1):
+        this_seg = np.sqrt( (R_fs[i] - R_fs[i + 1])**2 + (Z_fs[i] - Z_fs[i + 1])**2 )
+        R_center = 0.5 * (R_fs[i] + R_fs[i + 1])
+        area.append(this_seg * 2. * np.pi * R_center)
+    
+    return sum(area)
