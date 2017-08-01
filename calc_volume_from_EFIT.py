@@ -1,7 +1,6 @@
 #! /usr/bin/python
 
 from read_EFIT import *
-#from read_iterdb_file import *
 from calc_fields_from_EFIT import *
 import matplotlib.pyplot as plt
 from interp import *
@@ -13,12 +12,9 @@ def areaTriangle(vec1, vec2):
     return abs(0.5 * np.cross(vec1, vec2))
 
 def dVolume(R_in, Z_in, R_out, Z_out, plot_flux_surface = False):
-#    area = 0.
-#    vol = 0
     area = []
     vol = []
     for i in range(len(R_in) - 1):
-#        print(i)
         vec1 = [R_out[i] - R_in[i], Z_out[i] - Z_in[i]]
         vec2 = [R_out[i] - R_out[i + 1], Z_out[i] - Z_out[i + 1]]
         vec3 = [R_in[i + 1] - R_out[i + 1], Z_in[i + 1] - Z_out[i + 1]]
@@ -57,7 +53,7 @@ def totalV(EFIT_file_name, OUT_file_name, ntheta):
     f = open(OUT_file_name, 'w')
     sys.stdout = f
     dV = []
-    for i in range(len(EFITdict['psipn']) - 1):
+    for i in range(len(psipn_vec) - 1):
 #        print(i)
         R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
         R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
@@ -67,4 +63,8 @@ def totalV(EFIT_file_name, OUT_file_name, ntheta):
    
     return sum(dV)
     
-
+def surfaceArea(EFITdict, psip_fs = 1.):
+    psip_fs = float(psip_fs)
+    psipn_vec = EFITdict['psipn']
+    psipInd = np.argmin(abs(psipn_vec - psip_fs))
+    return psipInd
