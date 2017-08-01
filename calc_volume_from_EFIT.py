@@ -51,16 +51,20 @@ def dVolume(R_in, Z_in, R_out, Z_out, plot_flux_surface = False):
         plt.show()
     return sum(vol)
 
-def totalV(EFIT_file_name, ntheta):
+def totalV(EFIT_file_name, OUT_file_name, ntheta):
     EFITdict = read_EFIT(EFIT_file_name)
+    psipn_vec = EFITdict['psipn']
+    f = open(OUT_file_name, 'w')
+    sys.stdout = f
     dV = []
-    psipn = []
     for i in range(len(EFITdict['psipn']) - 1):
-        print(i)
-        R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, EFITdict['psipn'][i], ntheta)
-        R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, EFITdict['psipn'][i + 1], ntheta)
-        dV.append(dVolume(R_in, Z_in, R_out, Z_out, False))
-        psipn.append(EFITdict['psipn'][i])
+#        print(i)
+        R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
+        R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
+        this_dV = dVolume(R_in, Z_in, R_out, Z_out, False)
+        dV.append(this_dV)
+        print('{:.8f}    {:.8f}'.format(psipn_vec[i], this_dV))
+   
     return sum(dV)
     
 

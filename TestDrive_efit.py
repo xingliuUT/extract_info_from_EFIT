@@ -22,4 +22,4 @@ print(EFITdict['rmaxis'])
 #EFIT_file_name = sys.argv[1]
 ntheta = 128
 V = totalV(EFIT_file_name, sys.argv[2], ntheta)
-print('Total volume = {}'.format(V))
+print('# Total volume = {}'.format(V))
