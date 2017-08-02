@@ -208,7 +208,7 @@ def read_EFIT(EFIT_file_name):
 
     return EFITdict
 
-def magneticShear(EFITdict):
+def magneticShear(EFITdict, show_plots = False):
 
     rhotn = EFITdict['rhotn']
     q = EFITdict['qpsi']
@@ -221,5 +221,17 @@ def magneticShear(EFITdict):
     R_unirhot = interp(rhotn, EFITdict['R'], uni_rhot)
     Ls_unirhot = q_unirhot * R_unirhot / shat_unirhot
     Ls = interp(uni_rhot, Ls_unirhot, rhotn)
+
+    if show_plots:
+        plt.plot(uni_rhot, shat_unirhot)
+        plt.ylabel('shat')
+        plt.xlabel('rhot')
+        plt.axis([0.8, 1., 0., 10.])
+        plt.show()
+        plt.plot(uni_rhot, Ls_unirhot)
+        plt.ylabel('Ls')
+        plt.xlabel('rhot')
+        plt.axis([0.8, 1., 0., 2.])
+        plt.show()
 
     return uni_rhot, shat_unirhot, Ls_unirhot
