@@ -75,3 +75,29 @@ def surfaceArea(EFITdict, ntheta, psipn_fs = 1.):
         area.append(this_seg * 2. * np.pi * R_center)
     
     return sum(area)
+
+def totalN(EFITdict, ITERDBdict, OUT_file_name, ntheta):
+
+    psipn_vec = EFITdict['psipn']
+    rhotn_vec = EFITdict['rhotn']
+
+    nz = interp(ITERDBdict['rhot_nz'], ITERDBdict['nz'], rhotn_vec)
+
+    f = open(OUT_file_name, 'w')
+    sys.stdout = f
+    dV = []
+    dn = []
+    for i in range(len(psipn_vec) - 1):
+        #print(i)
+        R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
+        R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
+
+        this_dV = dVolume(R_in, Z_in, R_out, Z_out, False)
+        this_dn = this_dV * nz[i]
+
+        dV.append(this_dV)
+        dn.append(this_dn)
+
+        print('{:.8f}    {:.8f}    {:.8f}'.format(psipn_vec[i], this_dV, this_dn))
+   
+    return sum(dV), sum(dn)
