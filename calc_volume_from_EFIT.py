@@ -53,7 +53,7 @@ def totalV(EFIT_file_name, OUT_file_name, ntheta):
     f = open(OUT_file_name, 'w')
     sys.stdout = f
     dV = []
-    for i in range(len(psipn_vec) - 1):
+    for i in range(len(psipn_vec) - 2):
 #        print(i)
         R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
         R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
@@ -87,7 +87,7 @@ def totalN(EFITdict, ITERDBdict, OUT_file_name, ntheta):
     sys.stdout = f
     dV = []
     dn = []
-    for i in range(len(psipn_vec) - 1):
+    for i in range(len(psipn_vec) - 2):
         #print(i)
         R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
         R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
