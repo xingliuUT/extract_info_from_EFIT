@@ -107,3 +107,66 @@ def originalSurf(efit_file_name,flux_surface,ntheta):
     Bp = np.sqrt(dpsidz**2+dpsidr**2)/R_fs
 
     return zmag,R_fs,Z_fs,dpsidz,dpsidr,Bp,Bt,qpsi,jtor,psip_n
+def theta_grid(zmag,R,Z,Bp,Bt,gradpsi,flux_surface):
+    
+    fs = float(flux_surface)
+
+    theta_fs = np.empty(len(R),dtype='float')
+    #print 'len(theta_fs)=', len(theta_fs)
+    theta_fs[0] = 0.
+    theta_fs[len(R)-1] = 0.
+    theta_lower = np.empty(0,dtype='float')
+    theta_upper = np.empty(0,dtype='float')
+    R_lower = np.empty(0,dtype='float')
+    Z_lower = np.empty(0,dtype='float')
+    R_upper = np.empty(0,dtype='float')
+    Z_upper = np.empty(0,dtype='float')
+    Bt_lower = np.empty(0,dtype='float')
+    Bt_upper = np.empty(0,dtype='float')
+    Bp_lower = np.empty(0,dtype='float')
+    Bp_upper = np.empty(0,dtype='float')
+    theta_lower = np.append(theta_lower,theta_fs[0])
+    R_lower = np.append(R_lower,R[0])
+    Z_lower = np.append(Z_lower,Z[0])
+    Bt_lower = np.append(Bt_lower,Bt[0])
+    Bp_lower = np.append(Bp_lower,Bp[0])
+    
+    if 1 == 0:
+        plt.plot(R,label='R')
+        plt.plot(Z,'.',label='Z')
+        plt.axhline(y=zmag,label='zmag')
+        plt.legend()
+        plt.show()
+    # be careful which (R,Z) each theta correspond to
+    for i in range(len(R)-1):
+        if (Z[i]+Z[i+1])/2. <= zmag:
+            dl = np.sqrt((R[i+1]-R[i])**2+(Z[i+1]-Z[i])**2)
+            dtheta = dl*(Bt[i]/gradpsi[i]+Bt[i+1]/gradpsi[i+1])/2.
+            theta_fs[i+1] = theta_fs[i]-np.abs(dtheta)
+            theta_lower = np.append(theta_lower,theta_fs[i+1])
+            R_lower = np.append(R_lower,R[i+1])
+            Z_lower = np.append(Z_lower,Z[i+1])
+            Bt_lower = np.append(Bt_lower,Bt[i+1])
+            Bp_lower = np.append(Bp_lower,Bp[i+1])
+    for i in range(len(R)-1,0,-1):
+        if (Z[i]+Z[i-1])/2. > zmag:
+            dl = np.sqrt((R[i-1]-R[i])**2+(Z[i-1]-Z[i])**2)
+            dtheta = dl*(Bt[i]/gradpsi[i]+Bt[i-1]/gradpsi[i-1])/2.
+            theta_fs[i-1] = theta_fs[i]+ np.abs(dtheta)
+            theta_upper = np.append(theta_upper,theta_fs[i-1])
+            R_upper = np.append(R_upper,R[i-1])
+            Z_upper = np.append(Z_upper,Z[i-1])
+            Bt_upper = np.append(Bt_upper,Bt[i-1])
+            Bp_upper = np.append(Bp_upper,Bp[i-1])
+
+    qtheta_new = np.concatenate((np.flipud(theta_lower),theta_upper))
+    R_new = np.concatenate((np.flipud(R_lower),R_upper))
+    Z_new = np.concatenate((np.flipud(Z_lower),Z_upper))
+    Bt_new = np.concatenate((np.flipud(Bt_lower),Bt_upper))
+    Bp_new = np.concatenate((np.flipud(Bp_lower),Bp_upper))
+
+    q_new = (np.max(qtheta_new)-np.min(qtheta_new))/2./np.pi
+    #q_new is the q that makes theta goes 2pi
+    #which could be a little different than q from EFIT file
+
+    return qtheta_new, q_new, R_new, Z_new, Bp_new, Bt_new
