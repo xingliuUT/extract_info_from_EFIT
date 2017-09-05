@@ -17,6 +17,10 @@ This project contains Python code for extracting useful info from [EFIT](https:/
 * `surfaceArea` returns the total surface area given the flux surface `psipn`
 * `totalN` multiplies volume element with density profile to get the total stored particle numbers
 
+`calc_theta.py` contains methods that construct magnetic-field-line-following coordinate `theta` from the EFIT file:
+* `theta_grid_old` returns theta grid if it's given the grid points along a flux surface: theta = integral of `dl` the length of segments between two grid points of `B_tor / q / gradPsi`, where `gradPsi` is the gradient of `psirz` in the (R,Z) plane
+* 'theta_grid` and `originalSurf` doesn't require grid points as input. Instead, they could first trace points of a flux surface and then use those points to find the theta grid that centers at outboard mid-plane.
+
 ## Usage
 
 ## Note
