@@ -101,3 +101,58 @@ def totalN(EFITdict, ITERDBdict, OUT_file_name, ntheta):
         print('{:.8f}    {:.8f}    {:.8f}'.format(psipn_vec[i], this_dV, this_dn))
    
     return sum(dV), sum(dn)
+
+def totalE(EFITdict, ITERDBdict, OUT_file_name, ntheta):
+
+    psipn_vec = EFITdict['psipn']
+    rhotn_vec = EFITdict['rhotn']
+
+    ne = interp(ITERDBdict['rhot_ne'], ITERDBdict['ne'], rhotn_vec)
+    ni = interp(ITERDBdict['rhot_ni'], ITERDBdict['ni'], rhotn_vec)
+    nz = interp(ITERDBdict['rhot_nz'], ITERDBdict['nz'], rhotn_vec)
+    te = interp(ITERDBdict['rhot_te'], ITERDBdict['te'], rhotn_vec)
+    ti = interp(ITERDBdict['rhot_ti'], ITERDBdict['ti'], rhotn_vec)
+
+    f = open(OUT_file_name, 'w')
+    sys.stdout = f
+    dV = []
+    de = []
+    for i in range(len(psipn_vec) - 2):
+        #print(i)
+        R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
+        R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
+
+        this_dV = dVolume(R_in, Z_in, R_out, Z_out, False)
+        this_de = this_dV * ((ni[i] + nz[i]) * ti[i] + ne[i] * te[i]) * 1.6E-19
+
+        dV.append(this_dV)
+        de.append(this_de)
+
+        print('{:.8f}    {:.8f}    {:.8f}'.format(psipn_vec[i], this_dV, this_de))
+   
+    return sum(dV), sum(de)
+
+def alt_totalE(EFITdict, OUT_file_name, ntheta):
+
+    psipn_vec = EFITdict['psipn']
+    rhotn_vec = EFITdict['rhotn']
+    pressure = EFITdict['Pres']
+
+    f = open(OUT_file_name, 'w')
+    sys.stdout = f
+    dV = []
+    de = []
+    for i in range(len(psipn_vec) - 2):
+        #print(i)
+        R_in, Z_in, B_pol_in, B_tor_in, B_tot_in = BfieldsFS(EFITdict, psipn_vec[i], ntheta)
+        R_out, Z_out, B_pol_out, B_tor_out, B_tot_out = BfieldsFS(EFITdict, psipn_vec[i + 1], ntheta)
+
+        this_dV = dVolume(R_in, Z_in, R_out, Z_out, False)
+        this_de = this_dV * pressure[i]
+
+        dV.append(this_dV)
+        de.append(this_de)
+
+        print('{:.8f}    {:.8f}    {:.8f}'.format(psipn_vec[i], this_dV, this_de))
+   
+    return sum(dV), sum(de)
