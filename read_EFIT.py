@@ -165,7 +165,7 @@ def read_EFIT(EFIT_file_name):
     EFITdict['rhotn'] = rhotn    # square root of toroidal flux on psipn grid
 
     Z0_ind = np.argmin(abs(Zgrid - zmaxis))
-    R0_ind = np.argmin(abs(Rgrid - rmaxis))
+    R0_ind = np.argmin(abs(Rgrid - rmaxis - 0.02))
     R_obmp = Rgrid[R0_ind:]
     psirz_obmp = psirz[Z0_ind, R0_ind:]
     psipn_obmp = (psirz_obmp - simag) / (sibry - simag)
@@ -175,6 +175,14 @@ def read_EFIT(EFIT_file_name):
     R_obmp = list(R_obmp[:sepInd + 1])
 
     R = interp(psipn_obmp, R_obmp, psipn)
+    if 1 == 1:
+        plt.plot(psipn_obmp, R_obmp, label = 'before')
+        plt.plot(psipn, R, label = 'after')
+        plt.xlabel('psipn')
+        plt.ylabel('R')
+        plt.legend(loc = 2)
+        plt.show()
+
     EFITdict['R'] = R    # major radius (m) on psipn grid
 
     #jtor = rmaxis * Pprime + FFprime / rmaxis
