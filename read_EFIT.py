@@ -213,7 +213,8 @@ def magneticShear(EFITdict, show_plots = False):
     rhotn = EFITdict['rhotn']
     q = EFITdict['qpsi']
 
-    uni_rhot = np.linspace(rhotn[0], rhotn[-1], len(rhotn) * 10)
+    #uni_rhot = np.linspace(rhotn[0], rhotn[-1], len(rhotn) * 10)
+    uni_rhot = np.linspace(rhotn[0], rhotn[-1], len(rhotn))
     q_unirhot = interp(rhotn, q, uni_rhot)
     shat_unirhot = uni_rhot / q_unirhot * first_derivative(q_unirhot, uni_rhot)
     shat = interp(uni_rhot, shat_unirhot, rhotn)
