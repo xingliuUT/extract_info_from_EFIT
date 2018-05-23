@@ -175,7 +175,7 @@ def read_EFIT(EFIT_file_name):
     R_obmp = list(R_obmp[:sepInd + 1])
 
     R = interp(psipn_obmp, R_obmp, psipn)
-    if 1 == 1:
+    if 1 == 0:
         plt.plot(psipn_obmp, R_obmp, label = 'before')
         plt.plot(psipn, R, label = 'after')
         plt.xlabel('psipn')
