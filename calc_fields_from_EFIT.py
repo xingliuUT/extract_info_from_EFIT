@@ -80,14 +80,14 @@ def BfieldsFS(EFITdict, fs_psipn, ntheta, plot_flux_surface = False):
         istep = 0
         while abs(psi_1)>tol and abs(psi_2)>tol and istep<20:
             this_l = l_1-psi_1*(l_1-l_2)/(psi_1-psi_2)
-	    this_R = rmaxis + this_l*np.cos(theta)
-	    this_Z = zmaxis + this_l*np.sin(theta)
-	    this_psi = (psirz_spl(this_Z,this_R)[0][0]-simag)/(sibry-simag) - fs_psipn
-	    psi_2 = psi_1
-	    psi_1 = this_psi
-	    l_2 = l_1
-	    l_1 = this_l
-	    istep = istep +1
+            this_R = rmaxis + this_l*np.cos(theta)
+            this_Z = zmaxis + this_l*np.sin(theta)
+            this_psi = (psirz_spl(this_Z,this_R)[0][0]-simag)/(sibry-simag) - fs_psipn
+            psi_2 = psi_1
+            psi_1 = this_psi
+            l_2 = l_1
+            l_1 = this_l
+            istep = istep +1
         l_grid[i] = l_1
         R_fs[i] = rmaxis + l_grid[i] * np.cos(theta)
         Z_fs[i] = zmaxis + l_grid[i] * np.sin(theta)
@@ -188,14 +188,14 @@ def Bfields(EFIT_file_name, fs_psipn):
         istep = 0
         while abs(psi_1)>tol and abs(psi_2)>tol and istep<20:
             this_l = l_1-psi_1*(l_1-l_2)/(psi_1-psi_2)
-	    this_R = rmaxis + this_l*np.cos(theta)
-	    this_Z = zmaxis + this_l*np.sin(theta)
-	    this_psi = (psirz_spl(this_Z,this_R)[0][0]-simag)/(sibry-simag) - fs_psipn
-	    psi_2 = psi_1
-	    psi_1 = this_psi
-	    l_2 = l_1
-	    l_1 = this_l
-	    istep = istep +1
+            this_R = rmaxis + this_l*np.cos(theta)
+            this_Z = zmaxis + this_l*np.sin(theta)
+            this_psi = (psirz_spl(this_Z,this_R)[0][0]-simag)/(sibry-simag) - fs_psipn
+            psi_2 = psi_1
+            psi_1 = this_psi
+            l_2 = l_1
+            l_1 = this_l
+            istep = istep +1
         l_grid[i] = l_1
         R_fs[i] = rmaxis + l_grid[i] * np.cos(theta)
         Z_fs[i] = zmaxis + l_grid[i] * np.sin(theta)
@@ -272,9 +272,9 @@ def flux_surface_B_fields(efit_file_name,flux_surface):
     #plt.plot(Bp_obmp)
     #plt.show()
 
-    tol = 1.0E-7 	#1.0E-06
-    l_1 = 0.5	#0.5#(rmin+rdim-rmag)*fs*0.99
-    l_2 = 1.5	#0.1#(rmin+rdim-rmag)*fs*1.01
+    tol = 1.0E-7         #1.0E-06
+    l_1 = 0.5        #0.5#(rmin+rdim-rmag)*fs*0.99
+    l_2 = 1.5        #0.1#(rmin+rdim-rmag)*fs*1.01
     ntheta = 10000
     theta_grid = np.empty(ntheta)
     l_grid = np.empty(ntheta)
@@ -298,14 +298,14 @@ def flux_surface_B_fields(efit_file_name,flux_surface):
         istep = 0
         while abs(psi_1)>tol and abs(psi_2)>tol and istep<20:
             this_l = l_1-psi_1*(l_1-l_2)/(psi_1-psi_2)
-	    this_R = rmag+this_l*np.cos(theta)
-	    this_Z = zmag-this_l*np.sin(theta)
-	    this_psi = (psirz_spl(this_Z,this_R)[0][0]-psiax)/(psisep-psiax) - fs
-	    psi_2 = psi_1
-	    psi_1 = this_psi
-	    l_2 = l_1
-	    l_1 = this_l
-	    istep = istep +1
+            this_R = rmag+this_l*np.cos(theta)
+            this_Z = zmag-this_l*np.sin(theta)
+            this_psi = (psirz_spl(this_Z,this_R)[0][0]-psiax)/(psisep-psiax) - fs
+            psi_2 = psi_1
+            psi_1 = this_psi
+            l_2 = l_1
+            l_1 = this_l
+            istep = istep +1
         l_grid[i] = l_1
         R_fs[i] = rmag+l_grid[i]*np.cos(theta)
         Z_fs[i] = zmag-l_grid[i]*np.sin(theta)
