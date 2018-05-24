@@ -27,28 +27,29 @@ def read_EFIT(EFIT_file_name):
 
     entrylength=16
     #note: here rmin is rleft from EFIT
+    #print(len(eqdsk[1])/entrylength) is not integer
     try:
         rdim,zdim,rcentr,rleft,zmid = \
             [float(eqdsk[1][j*entrylength:(j+1)*entrylength]) \
-            for j in range(len(eqdsk[1])/entrylength)]
+            for j in range(len(eqdsk[1])//entrylength)]
     except:
         entrylength=15
         try:
             rdim,zdim,rcentr,rleft,zmid = \
                 [float(eqdsk[1][j*entrylength:(j+1)*entrylength]) \
-                for j in range(len(eqdsk[1])/entrylength)]
+                for j in range(len(eqdsk[1])//entrylength)]
         except:
             exit('Error reading EQDSK file, please check format!')
 
     rmaxis,zmaxis,simag,sibry,bcentr = \
         [float(eqdsk[2][j*entrylength:(j+1)*entrylength]) \
-        for j in range(len(eqdsk[2])/entrylength)]
+        for j in range(len(eqdsk[2])//entrylength)]
     current,simag2,xdum,rmaxis2,xdum = \
         [float(eqdsk[3][j*entrylength:(j+1)*entrylength]) \
-        for j in range(len(eqdsk[3])/entrylength)]
+        for j in range(len(eqdsk[3])//entrylength)]
     zmaxis2,xdum,sibry2,xdum,xdum = \
         [float(eqdsk[4][j*entrylength:(j+1)*entrylength]) \
-        for j in range(len(eqdsk[4])/entrylength)]
+        for j in range(len(eqdsk[4])//entrylength)]
 
     EFITdict['rdim'] = rdim
     EFITdict['zdim'] = zdim
@@ -62,16 +63,16 @@ def read_EFIT(EFIT_file_name):
     EFITdict['bcentr'] = bcentr    # vacuum toroidal magnetic field in Telsa
     EFITdict['current'] = current    # plasma current in Ampere
 
-    print 'EFIT file Resolution: %d x %d' %(EFITdict['nw'],EFITdict['nh'])
-    print 'Horizontal dimension(m): %10.4f' %EFITdict['rdim']
-    print 'Vertical dimension(m): %10.4f' %EFITdict['zdim']
-    print 'Minimum R of rectangular grid: %10.4f' %EFITdict['rleft']
-    print '(R, Z) of magnetic axis: (%10.4f, %10.4f)' %(EFITdict['rmaxis'],EFITdict['zmaxis'])
-    print 'poloidal flux at magnetic axis in Weber/rad: %10.4f' %EFITdict['simag']
-    print 'poloidal flux at the plasma boundary in Weber/rad: %10.4f' %EFITdict['sibry']
-    print 'Vacuum toroidal magnetic field at R = %10.4f: %10.4f Tesla' %(EFITdict['rcentr'],EFITdict['bcentr'])
-    print 'Z of center of rectangular grid: %10.4f' %EFITdict['zmid']
-    print 'Plasma current: %10.4f Ampere' %EFITdict['current']
+    print('EFIT file Resolution: %d x %d' %(EFITdict['nw'],EFITdict['nh']))
+    print('Horizontal dimension(m): %10.4f' %EFITdict['rdim'])
+    print('Vertical dimension(m): %10.4f' %EFITdict['zdim'])
+    print('Minimum R of rectangular grid: %10.4f' %EFITdict['rleft'])
+    print('(R, Z) of magnetic axis: (%10.4f, %10.4f)' %(EFITdict['rmaxis'],EFITdict['zmaxis']))
+    print('poloidal flux at magnetic axis in Weber/rad: %10.4f' %EFITdict['simag'])
+    print('poloidal flux at the plasma boundary in Weber/rad: %10.4f' %EFITdict['sibry'])
+    print('Vacuum toroidal magnetic field at R = %10.4f: %10.4f Tesla' %(EFITdict['rcentr'],EFITdict['bcentr']))
+    print('Z of center of rectangular grid: %10.4f' %EFITdict['zmid'])
+    print('Plasma current: %10.4f Ampere' %EFITdict['current'])
 
     Rgrid = np.linspace(0, 1, nw, endpoint = True) * rdim + rleft
     Zgrid = np.linspace(0, 1, nh, endpoint = True) * zdim + (zmid - zdim/2.)
@@ -90,10 +91,10 @@ def read_EFIT(EFIT_file_name):
     
     start_line = 5
     wordsInLine = 5
-    lines=range(nw/wordsInLine)
-    if nw%wordsInLine!=0: lines=range(nw/wordsInLine+1)
+    lines=range(nw//wordsInLine)
+    if nw%wordsInLine!=0: lines=range(nw//wordsInLine+1)
     for i in lines:
-        n_entries=len(eqdsk[i+start_line])/entrylength
+        n_entries=len(eqdsk[i+start_line])//entrylength
         Fpol[i*wordsInLine:i*wordsInLine+n_entries] = \
             [float(eqdsk[i+start_line][j*entrylength:(j+1)*entrylength]) \
             for j in range(n_entries)]
@@ -101,7 +102,7 @@ def read_EFIT(EFIT_file_name):
     EFITdict['Fpol'] = Fpol    # poloidal current function F = R * Btor on psipn grid
 
     for i in lines:
-        n_entries=len(eqdsk[i+start_line])/entrylength
+        n_entries=len(eqdsk[i+start_line])//entrylength
         Pres[i*wordsInLine:i*wordsInLine+n_entries] = \
             [float(eqdsk[i+start_line][j*entrylength:(j+1)*entrylength]) \
             for j in range(n_entries)]
@@ -109,7 +110,7 @@ def read_EFIT(EFIT_file_name):
     EFITdict['Pres'] = Pres    # plasma pressure in N / m^2 on psipn grid
 
     for i in lines:
-        n_entries=len(eqdsk[i+start_line])/entrylength
+        n_entries=len(eqdsk[i+start_line])//entrylength
         FFprime[i*wordsInLine:i*wordsInLine+n_entries] = \
             [float(eqdsk[i+start_line][j*entrylength:(j+1)*entrylength]) \
             for j in range(n_entries)]
@@ -117,17 +118,17 @@ def read_EFIT(EFIT_file_name):
     EFITdict['FFprime'] = FFprime    # FFprime on psipn grid
 
     for i in lines:
-        n_entries=len(eqdsk[i+start_line])/entrylength
+        n_entries=len(eqdsk[i+start_line])//entrylength
         Pprime[i*wordsInLine:i*wordsInLine+n_entries] = \
             [float(eqdsk[i+start_line][j*entrylength:(j+1)*entrylength]) \
             for j in range(n_entries)]
     start_line=i+start_line+1
     EFITdict['Pprime'] = Pprime    # Pprime on psipn grid
 
-    lines_twod=range(nw*nh/wordsInLine)
-    if nw*nh%wordsInLine!=0: lines_twod=range(nw*nh/wordsInLine+1)
+    lines_twod=range(nw*nh//wordsInLine)
+    if nw*nh%wordsInLine!=0: lines_twod=range(nw*nh//wordsInLine+1)
     for i in lines_twod:
-        n_entries=len(eqdsk[i+start_line])/entrylength
+        n_entries=len(eqdsk[i+start_line])//entrylength
         psirz_1d[i*wordsInLine:i*wordsInLine+n_entries] = \
             [float(eqdsk[i+start_line][j*entrylength:(j+1)*entrylength]) \
             for j in range(n_entries)]
@@ -137,7 +138,7 @@ def read_EFIT(EFIT_file_name):
     EFITdict['psirz'] = psirz    # poloidal flux on the rectangular grid (Rgrid, Zgrid)
 
     for i in lines:
-        n_entries=len(eqdsk[i+start_line])/entrylength
+        n_entries=len(eqdsk[i+start_line])//entrylength
         qpsi[i*wordsInLine:i*wordsInLine+n_entries] = \
             [float(eqdsk[i+start_line][j*entrylength:(j+1)*entrylength]) \
             for j in range(n_entries)]
