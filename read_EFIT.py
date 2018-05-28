@@ -190,7 +190,7 @@ def read_EFIT(EFIT_file_name):
     jtor = R * Pprime + FFprime / R
     EFITdict['jtor'] = jtor    # toroidal current density on psipn grid
 
-    psirz_spl = interpolate.RectBivariateSpline(Zgrid, Rgrid, psirz)
+    #psirz_spl = interpolate.RectBivariateSpline(Zgrid, Rgrid, psirz)
 
     Bp_Z_grid = np.empty(np.shape(psirz))
     for i in range(nh):
@@ -202,8 +202,8 @@ def read_EFIT(EFIT_file_name):
         Bp_R_grid_this = - first_derivative(psirz[:,i].flatten(), Zgrid) / Rgrid[i]
         Bp_R_grid[:,i] = Bp_R_grid_this.copy()
 
-    Bp_R_spl = interpolate.RectBivariateSpline(Zgrid, Rgrid, Bp_R_grid)
-    Bp_Z_spl = interpolate.RectBivariateSpline(Zgrid, Rgrid, Bp_Z_grid)
+    #Bp_R_spl = interpolate.RectBivariateSpline(Zgrid, Rgrid, Bp_R_grid)
+    #Bp_Z_spl = interpolate.RectBivariateSpline(Zgrid, Rgrid, Bp_Z_grid)
 
     Bp_tot_grid = np.sqrt(Bp_R_grid ** 2 + Bp_Z_grid ** 2)
     Bp_obmp = Bp_tot_grid[Z0_ind, R0_ind : R0_ind + sepInd + 1]
