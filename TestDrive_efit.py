@@ -11,9 +11,50 @@ import sys
 EFIT_file_name = sys.argv[1]
 EFITdict = read_EFIT(EFIT_file_name)
 print(list(EFITdict.keys()))
+if 1 == 0:
+    x_test = np.linspace(EFITdict['rhotn'][0], EFITdict['rhotn'][-1], 50) - 0.5
+    f_test = 100. * x_test**2
+    df_test = first_derivative(f_test, x_test)
+    #plt.plot(x_test, f_test, label = 'f_test')
+    plt.plot(x_test, df_test, label = 'df_test')
+    plt.plot(x_test, 200. * x_test, '.', label = '2 * x_test')
+    plt.legend()
+    plt.show()
 
+    f_test = 100. * x_test**3
+    df_test = first_derivative(f_test, x_test)
+    #plt.plot(x_test, f_test, label = 'f_test')
+    plt.plot(x_test, df_test, label = 'df_test')
+    plt.plot(x_test, 300. * x_test**2, '.', label = '3 * x_test**3')
+    plt.legend()
+    plt.show()
+
+    f_test = 100. * x_test**4
+    df_test = first_derivative(f_test, x_test)
+    #plt.plot(x_test, f_test, label = 'f_test')
+    plt.plot(x_test, df_test, label = 'df_test')
+    plt.plot(x_test, 400. * x_test**3, '.', label = '4 * x_test**3')
+    plt.legend()
+    plt.show()
+
+    f_test = 100. * x_test**5
+    df_test = first_derivative(f_test, x_test)
+    #plt.plot(x_test, f_test, label = 'f_test')
+    plt.plot(x_test, df_test, label = 'df_test')
+    plt.plot(x_test, 500. * x_test**4, '.', label = '5 * x_test**4')
+    plt.legend()
+    plt.show()
+if 1 == 0:
+    plt.plot(EFITdict['rhotn'], EFITdict['Bpol'], label = 'B pol')
+    plt.xlabel('rhot')
+    plt.legend()
+    plt.show()
+    plt.plot(EFITdict['rhotn'], EFITdict['Btor'], label = 'B tor')
+    plt.xlabel('rhot')
+    plt.legend()
+    plt.show()
 ntheta = 512
-if 1 == 1:
+if 1 == 0:
     psip_fs = 1.
     R_fs0, Z_fs0, B_pol, B_tor, B_tot = BfieldsFS(EFITdict, psip_fs, ntheta, False)
     psip_fs = 0.995
@@ -34,7 +75,7 @@ if 1 == 1:
 if 1 == 1:
     uni_rhot, shat, Ls = magneticShear(EFITdict)
     plt.plot(EFITdict['rhotn'], shat, label = 'shat')
-    plt.plot(uni_rhot, shat)
+    #plt.plot(uni_rhot, shat)
     plt.xlabel('rhot')
     plt.legend()
     plt.show()
@@ -43,7 +84,7 @@ if 1 == 0:
    plt.xlabel('psip')
    plt.ylabel('q')
    plt.show()
-if 1 == 1:
+if 1 == 0:
    plt.plot(EFITdict['rhotn'], EFITdict['jtor'], label = 'jtor')
    plt.xlabel('rhotn')
    plt.legend()
