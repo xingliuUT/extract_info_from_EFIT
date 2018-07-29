@@ -20,7 +20,7 @@ output_format = sys.argv[3]
 EFITdict = read_EFIT(EFIT_file_name)
 print(list(EFITdict.keys()))
 
-if 1 == 1:
+if 1 == 0:
     fig, ax = plt.subplots(figsize = figsize0)
     ax.plot(EFITdict['rhotn'], EFITdict['Pres'], label = r'$P (N/m^2)$', color = 'black', linewidth = linewidth0)
     ax.set_xlabel(r'$\rho_t$', fontsize = fontsize0)
@@ -36,11 +36,24 @@ if 1 == 1:
     else:
         plt.show()
 
-if 1 == 0:
-   plt.plot(EFITdict['rhotn'], EFITdict['qpsi'], label = 'q')
-   plt.xlabel('rhot')
-   plt.ylabel('q')
-   plt.show()
+if 1 == 1:
+    fig, ax = plt.subplots(figsize = figsize0)
+    ax.plot(EFITdict['rhotn'], EFITdict['qpsi'], label = r'$q$', color = 'black', linewidth = linewidth0)
+    ax.set_xlabel(r'$\rho_t$', fontsize = fontsize0)
+    ax.set_xlim([0.92, 1.])
+    start, end = ax.get_xlim()
+    ax.xaxis.set_ticks(np.arange(start, 1.01, 0.01))
+    btm = float(sys.argv[4])
+    top = float(sys.argv[5])
+    ax.set_ylim([btm, top])
+    ax.tick_params(axis='both',which='major',labelsize=fontsize0,length=5,width=2,direction='out')
+    ax.legend(loc = 2)
+    fig.tight_layout()
+    if output_format == 'pdf':
+        plt.savefig(case_file_name + '_qvsrhot.pdf', format = 'pdf')
+    else:
+        plt.show()
+
 if 1 == 0:
     uni_rhot, shat, Ls = magneticShear(EFITdict)
     plt.plot(EFITdict['rhotn'], shat, label = 'shat')
